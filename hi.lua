@@ -78,9 +78,9 @@ function Library:CreateNotification(title, text, duration)
     notif.ZIndex = 1000
     notif.Parent = self.ScreenGui
 
-    local blur = Instance.new("UIBlur")
+    local blur = Instance.new("BlurEffect")
     blur.Size = 24
-    blur.Parent = notif
+    blur.Parent = game:GetService("Lighting")
 
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 8)
