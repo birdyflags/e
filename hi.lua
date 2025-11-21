@@ -78,10 +78,6 @@ function Library:CreateNotification(title, text, duration)
     notif.ZIndex = 1000
     notif.Parent = self.ScreenGui
 
-    local blur = Instance.new("BlurEffect")
-    blur.Size = 24
-    blur.Parent = game:GetService("Lighting")
-
     local corner = Instance.new("UICorner")
     corner.CornerRadius = UDim.new(0, 8)
     corner.Parent = notif
@@ -127,11 +123,14 @@ end
 function Library:New(config)
     local window = setmetatable({}, Library)
 
+    local player = Players.LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+
     window.ScreenGui = Instance.new("ScreenGui")
     window.ScreenGui.Name = "AyraHub"
     window.ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
     window.ScreenGui.ResetOnSpawn = false
-    window.ScreenGui.Parent = game.CoreGui
+    window.ScreenGui.Parent = playerGui
 
     window.BlurEffect = Instance.new("BlurEffect")
     window.BlurEffect.Size = 0
@@ -535,13 +534,12 @@ function Library:CreateTab(name, icon)
     tab.Button = tabButton
     table.insert(self.Tabs, tab)
 
-if #self.Tabs == 1 then
-    -- use the same logic you run when the button is clicked
-    self.CurrentTab = tab
-    tab.Page.Visible = true
-    CreateTween(tabIcon , {ImageColor3 = Themes.Primary}, 0.2)
-    CreateTween(tabName,  {TextColor3 = Themes.Primary}, 0.2)
-end
+    if #self.Tabs == 1 then
+        self.CurrentTab = tab
+        tab.Page.Visible = true
+        CreateTween(tabIcon, {ImageColor3 = Themes.Primary}, 0.2)
+        CreateTween(tabName, {TextColor3 = Themes.Primary}, 0.2)
+    end
 
     function tab:CreateSection(name)
         local section = {}
@@ -617,7 +615,7 @@ end
         holder.Size = UDim2.new(0, 1, 0, 1)
         holder.AutomaticSize = Enum.AutomaticSize.XY
         holder.BackgroundTransparency = 1
-        holder.Parent = header
+        holder.Parent = sectionFrame
 
         local holderLayout = Instance.new("UIListLayout")
         holderLayout.SortOrder = Enum.SortOrder.LayoutOrder
