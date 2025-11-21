@@ -535,9 +535,13 @@ function Library:CreateTab(name, icon)
     tab.Button = tabButton
     table.insert(self.Tabs, tab)
 
-    if #self.Tabs == 1 then
-        clickDetector.MouseButton1Click:Fire()
-    end
+if #self.Tabs == 1 then
+    -- use the same logic you run when the button is clicked
+    self.CurrentTab = tab
+    tab.Page.Visible = true
+    CreateTween(tabIcon , {ImageColor3 = Themes.Primary}, 0.2)
+    CreateTween(tabName,  {TextColor3 = Themes.Primary}, 0.2)
+end
 
     function tab:CreateSection(name)
         local section = {}
